@@ -42,12 +42,21 @@ def get_dns_record_id(record_name):
         return None
 
 def check_dns_record(record_name):
-    response = requests.get(f"https://api.cloudflare.com/client/v4/zones/{g_zone_id}/dns_records?type={g_record_type}&name={record_name}", headers=g_header)
-    if response.status_code == 200:
-        records = response.json()["result"]
-        if records:
-            return records[0]['content']  # Return the IP address of the DNS record
-    return None
+    try:
+        response = requests.get(f"https://api.cloudflare.com/client/v4/zones/{g_zone_id}/dns_records?type={g_record_type}&name={record_name}", headers=g_header)
+        if response.status_code == 200:
+            records = response.json()["result"]
+            if records:
+                return records[0]['content']  # Return the IP address of the DNS record
+            else:
+                write_log(LogLevel.ERROR, "No matching DNS record found")
+                return None
+        else:
+            write_log(LogLevel.ERROR, f"Failed to fetch DNS records: {response.text}")
+            return None
+    except requests.RequestException as e:
+        write_log(LogLevel.ERROR, f"API request failed: {e}")
+        return None
 
 def update_dns_record():
     for record_name in g_record_names:
@@ -85,13 +94,11 @@ def update_dns_record():
 def write_log(level, message):
     current_time = datetime.datetime.now()
     message = f"{current_time:%Y-%m-%d %H:%M:%S} - {message}"
-    if level == LogLevel.INFO:
-        print(message)
-    elif level == LogLevel.ERROR:
+    if level == LogLevel.ERROR:
         print(message, file=sys.stderr)
     else:
         print(message)
 
 if __name__ == "__main__":
     update_dns_record()
-    print("###################################################################################################################")
+    write_log(LogLevel.INFO, "###################################################################################################################")

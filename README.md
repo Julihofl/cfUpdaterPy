@@ -44,6 +44,11 @@ This will run the python script every 5 minutes.
 ```
 This will redirect all output to the provided log file.
 
+4. To make the cronjob stick after a reboot:
+```
+sudo service cron start
+```
+
 ## Troubleshooting
 - Ensure all entered credentials and information are correct. 
 - Make sure your Cloudflare API key has the necessary permissions. If you're having trouble with Zone keys, use Global API key.
