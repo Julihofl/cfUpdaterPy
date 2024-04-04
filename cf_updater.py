@@ -50,7 +50,7 @@ def update_dns_record():
     for record_name in g_record_names:
         record_name = record_name.strip()  # Removing leading/trailing whitespace
         dns_record_ip = check_dns_record(record_name)
-        
+
         if dns_record_ip == g_ip_address:
             write_log(LogLevel.INFO, f"The IP address {g_ip_address} already matches the A record for {record_name}.")
             continue
@@ -82,11 +82,12 @@ def update_dns_record():
 def write_log(level, message):
     current_time = datetime.datetime.now()
     message = f"{current_time:%Y-%m-%d %H:%M:%S} - {message}"
-    match level:
-        case LogLevel.INFO:
-            print(message)
-        case LogLevel.ERROR:
-            print(message, file=sys.stderr)
+    if level == LogLevel.INFO:
+        print(message)
+    elif level == LogLevel.ERROR:
+        print(message, file=sys.stderr)
+    else:
+        print(message)
 
 if __name__ == "__main__":
     update_dns_record()
