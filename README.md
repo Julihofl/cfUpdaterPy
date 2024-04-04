@@ -1,12 +1,12 @@
-# Cloudflare DNS Updater
+# Cloudflare DNS Updater for Raspberry Pi
+This is only a fork. All credits go to the original creator.
 
 ## Overview
-This Python script provides a graphical user interface (GUI) to update DNS records in Cloudflare. It retrieves the public IP address of the user's machine using the ipify service and updates a specified DNS record in Cloudflare with this IP address.
+This Python script updates DNS records in Cloudflare. It retrieves the public IP address of the user's machine using the ipify service and updates a specified DNS record in Cloudflare with this IP address.
 
 ## Features
 - Retrieves the current public IP address.
 - Updates a specified DNS record in Cloudflare with the current IP.
-- GUI for easy interaction.
 
 ## Prerequisites
 - Python 3.x
@@ -17,18 +17,32 @@ This Python script provides a graphical user interface (GUI) to update DNS recor
 2. Install the required Python packages: `pip install requests`.
 
 ## Configuration
-Before running the script, ensure you have the following Cloudflare account details:
+1. Before running the script, ensure you have the following Cloudflare account details:
 - API Key
-- Email associated with Cloudflare account
 - Zone ID of the domain
 - Record Name and Record Type you wish to update
+2. Enter your informations into the respective variables inside the `cf_updater.py` file.
 
 ## Usage
-1. Run the script using Python: `python cfUpdater.py`.
-2. Enter your Cloudflare API Key, Email, Zone ID, Record Name(s), and Record Type in the respective fields in the GUI.
- Multiple record names can be entered seperated by commas (e.g. test.example.com, test2.example.com) 
-3. The script will display your current public IP. If you want to update the specified DNS records to this IP, click on the "Update DNS Record" button or "Start Auto Update" button to run at the set interval.
-4. Results of the operation will be displayed in the GUI.
+1. Run the script using Python: `python cf_updater.py`.
+2. Results will be output on the console.
+
+## Auto Update using cronjobs
+1. Type in terminal:
+```
+crontab -e
+```
+2. Insert at the bottom:
+```
+*/5 * * * * /usr/bin/python /path/to/file.py
+```
+This will run the python script every 5 minutes.
+
+3. If you wish to log the output of the script use this:
+```
+*/5 * * * * /usr/bin/python /path/to/file.py >> /path/to/file.log 2>&1
+```
+This will redirect all output to the provided log file.
 
 ## Troubleshooting
 - Ensure all entered credentials and information are correct. 
