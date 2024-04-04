@@ -3,10 +3,13 @@ import sys
 import datetime
 import enum
 
+# Only change these variables
 g_api_key = "<YOUR_API_KEY>"
 g_zone_id = "<YOUR_ZONE_ID>"
 g_record_names = ["www.domain.com", "domain.com", "first.domain.com", "second.domain.com"]
 g_record_type = "A"
+
+# Don't change anything from here on
 g_ip_address = requests.get("https://api.ipify.org").text
 g_header = {"Authorization": "Bearer " + g_api_key,}
 
