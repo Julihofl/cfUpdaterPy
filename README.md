@@ -18,7 +18,7 @@ This Python script updates DNS records in Cloudflare. It retrieves the public IP
 
 ## Configuration
 1. Before running the script, ensure you have the following Cloudflare account details:
-- API Key
+- API Key (Your API Key needs to have read and write permissions)
 - Zone ID of the domain
 - Record Name and Record Type you wish to update
 2. Enter your informations into the respective variables inside the `cf_updater.py` file.
